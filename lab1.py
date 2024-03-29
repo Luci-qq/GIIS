@@ -80,9 +80,9 @@ class LineEditor:
             x += x_increment
             y += y_increment
             self.debug_text.insert(tk.END, f"({round(x)}, {round(y)})\n")
-            self.debug_text.see(tk.END)  # Прокрутка вниз
-            self.master.update()  # Обновление интерфейса
-            self.master.after(50)  # Задержка для визуализации шагов
+            self.debug_text.see(tk.END)
+            self.master.update()  
+            self.master.after(50) 
 
     def draw_bresenham(self, x0, y0, x1, y1):
         dx = abs(x1 - x0)
@@ -94,9 +94,9 @@ class LineEditor:
         while x0 != x1 or y0 != y1:
             self.canvas.create_rectangle(x0, y0, x0, y0, fill="black")
             self.debug_text.insert(tk.END, f"({x0}, {y0})\n")
-            self.debug_text.see(tk.END)  # Прокрутка вниз
-            self.master.update()  # Обновление интерфейса
-            self.master.after(50)  # Задержка для визуализации шагов
+            self.debug_text.see(tk.END)
+            self.master.update() 
+            self.master.after(50)  
             e2 = 2 * err
             if e2 > -dy:
                 err -= dy
@@ -135,9 +135,9 @@ class LineEditor:
                 self.canvas.create_rectangle(x, int(intery) + 1, x, int(intery) + 1, fill="black", width=1)
                 intery += gradient
                 self.debug_text.insert(tk.END, f"({x}, {int(intery)})\n")
-                self.debug_text.see(tk.END)  # Прокрутка вниз
-                self.master.update()  # Обновление интерфейса
-                self.master.after(50)  # Задержка для визуализации шагов
+                self.debug_text.see(tk.END) 
+                self.master.update()  
+                self.master.after(50) 
         else:
             if y0 > y1:
                 x0, y0, x1, y1 = x1, y1, x0, y0
@@ -165,9 +165,9 @@ class LineEditor:
                 self.canvas.create_rectangle(int(interx) + 1, y, int(interx) + 1, y, fill="black", width=1)
                 interx += gradient
                 self.debug_text.insert(tk.END, f"({int(interx)}, {y})\n")
-                self.debug_text.see(tk.END)  # Прокрутка вниз
-                self.master.update()  # Обновление интерфейса
-                self.master.after(50)  # Задержка для визуализации шагов
+                self.debug_text.see(tk.END) 
+                self.master.update()
+                self.master.after(50)  
 
 def main():
     root = tk.Tk()
