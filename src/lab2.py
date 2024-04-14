@@ -1,26 +1,27 @@
 import tkinter as tk
 import numpy as np
 
-TIMER = 1
-NUM_POINTS = 1000
 
+class Lab2(tk.Tk):
+    def __init__(self):
+        super().__init__()
+        self.title("Лабораторная работа #2")
+        self.wm_state('zoomed')
 
-class FigureDrawer:
-    def __init__(self, master):
-        self.master = master
-        self.master.title("Графический редактор")
+        self.TIMER = 1
+        self.NUM_POINTS = 1000
 
-        self.canvas_width = 400
-        self.canvas_height = 400
-        self.center_x = 200
-        self.center_y = 200
+        self.canvas_width = 800
+        self.canvas_height = 800
+        self.center_x = 400
+        self.center_y = 400
         self.debug_mode = False
 
         self.points = []
         self.hypepoints_up = []
         self.hypepoints_down = []
 
-        self.canvas = tk.Canvas(self.master, width=self.canvas_width, height=self.canvas_height, bg="white")
+        self.canvas = tk.Canvas(self.master, width=self.canvas_width, height=self.canvas_height, bg="white", highlightbackground='gray')
         self.canvas.pack(side=tk.LEFT)
 
         self.toolbar = tk.Frame(self.master)
@@ -35,10 +36,10 @@ class FigureDrawer:
         self.figure_menu = tk.OptionMenu(self.toolbar, self.figure_type, "Окружность", "Эллипс", "Гипербола", "Парабола")
         self.figure_menu.pack()
 
-        self.axis_a = tk.Label(master,text='Полуось a: ')
-        self.entry_axis_a =tk.Entry(master)
-        self.axis_b = tk.Label(master,text= 'Полуось b:')
-        self.entry_axis_b = tk.Entry(master)
+        self.axis_a = tk.Label(self.master,text='Полуось a: ')
+        self.entry_axis_a =tk.Entry(self.master)
+        self.axis_b = tk.Label(self.master,text= 'Полуось b:')
+        self.entry_axis_b = tk.Entry(self.master)
         
         self.axis_a.pack(after=self.figure_menu)
         self.entry_axis_a.pack(after=self.axis_a)
@@ -48,7 +49,7 @@ class FigureDrawer:
         self.draw_button=tk.Button(text='Нарисовать',command=self.draw_conic)
         self.draw_button.pack(after=self.entry_axis_b,pady=10)
 
-        self.debug_text = tk.Text(self.master, height=25, width=40)
+        self.debug_text = tk.Text(self.master, height=48, width=40)
         self.debug_text.pack(side=tk.RIGHT)
 
         self.debug_text.insert(tk.END, "Построение: \n")
@@ -97,7 +98,7 @@ class FigureDrawer:
 #y = k + b * sin(O)
     def get_ellipse_points(self, a, b):
         self.points.clear()
-        for angle in np.linspace(0, 2 * np.pi, NUM_POINTS):
+        for angle in np.linspace(0, 2 * np.pi, self.NUM_POINTS):
             x = self.center_x + a * np.cos(angle)
             y = self.center_y + b * np.sin(angle)
             self.points.append((x, y))
@@ -105,7 +106,7 @@ class FigureDrawer:
 #y = ax^2
     def get_parabola_points(self, a):
         self.points.clear()
-        for x in np.linspace(-10, 10, NUM_POINTS):
+        for x in np.linspace(-10, 10, self.NUM_POINTS):
             y = a * x ** 2
             screen_x = self.center_x + x * 20
             screen_y = self.center_y - y * 20 
@@ -115,7 +116,7 @@ class FigureDrawer:
     def get_hyperbola_points(self, a, b):
         self.hypepoints_up = []
         self.hypepoints_down = []
-        for x in np.linspace(self.center_x - a - 200, self.center_x + a + 200, NUM_POINTS):
+        for x in np.linspace(self.center_x - a - 200, self.center_x + a + 200, self.NUM_POINTS):
             y1 = self.center_y + b * np.sqrt(1 + ((x - self.center_x) / a) ** 2)
             y2 = self.center_y - b * np.sqrt(1 + ((x - self.center_x) / a) ** 2)
             if 0 <= y1 <= self.canvas_height:
@@ -141,8 +142,8 @@ class FigureDrawer:
             self.canvas.create_rectangle(point[0], point[1], point[0], point[1], fill="black")
             self.debug_text.insert(tk.END, f"({round(point[0])}, {round(point[1])})\n")
             self.debug_text.see(tk.END)  
-            self.master.update()  
-            self.master.after(TIMER) 
+            self.update()  
+            self.after(self.TIMER) 
 
     def draw_default(self,points):
         for point in points:
@@ -159,6 +160,5 @@ class FigureDrawer:
 
 
 if __name__=='__main__':
-    root = tk.Tk()
-    app = FigureDrawer(root)
-    root.mainloop()
+    lab2 = Lab2()
+    lab2.mainloop()
